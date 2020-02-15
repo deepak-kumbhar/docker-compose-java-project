@@ -1,0 +1,21 @@
+codegrip:
+    image: openjdk:8
+    links:
+     - mariadb:mysql-standalone-demo
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+    volumes:
+     - ./project:/tmp 
+    command: mkdir /var/log/project-name && chmod -R 777 /var/log/project-name
+    command: java -jar -Dspring.profiles.active=local -DshouldStartThread=false /tmp/project.jar
+    ports: 
+     - 8080:8080 
+mariadb:
+    image: mariadb
+    environment:
+     - MYSQL_ROOT_PASSWORD=root
+     - MYSQL_DATABASE=root
+     - MYSQL_USER= root
+     - MYSQL_PASSWORD= root
+    volumes:
+     - ./database:/var/lib/mysql
